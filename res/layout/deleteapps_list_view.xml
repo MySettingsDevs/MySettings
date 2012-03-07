@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" android:layout_height="wrap_content"
+		android:paddingTop="10dp" style="@android:style/ButtonBar">
+
+		<Button android:id="@+id/deletecheckeditems_button" android:text="@string/SaveDeleteCheckedItems_button"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:enabled="true" android:layout_alignBottom="@+id/loadcheckeditems_button" android:layout_below="@+id/DeleteSelektionTextView"/>
+	
+		<Button android:id="@+id/loaddeletecheckeditems_button" android:text="@string/LoadDeleteCheckedItems_button"
+		 	android:layout_width="wrap_content" android:layout_height="wrap_content"  
+		 	android:enabled="true" android:layout_toRightOf="@+id/deletecheckeditems_button" android:layout_below="@+id/DeleteSelektionTextView"/>
+		
+		<TextView android:text="Selektion" android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:id="@+id/DeleteSelektionTextView" android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" android:layout_alignParentTop="true" 
+			android:layout_alignLeft="@+id/deletecheckeditems_button"></TextView>
+			
+		<Button android:id="@+id/app_loeschen_button" android:text="@string/App_loeschen_button"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:enabled="true" android:layout_alignParentRight="true" 
+			android:layout_alignBottom="@+id/loaddeletecheckeditems_button" 
+			android:layout_below="@+id/DeleteSelektionTextView"/>
+
+	</RelativeLayout>
+
+	<ListView android:id="@+id/deleteapps_list_view" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:drawSelectorOnTop="false" />
+
+</LinearLayout>

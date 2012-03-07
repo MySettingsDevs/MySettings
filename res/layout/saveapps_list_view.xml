@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" android:layout_height="wrap_content"
+		android:paddingTop="10dp" style="@android:style/ButtonBar">
+
+		<Button android:id="@+id/savecheckeditems_button" android:text="@string/SaveCheckedItems_button"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:enabled="true" android:layout_alignBottom="@+id/loadcheckeditems_button" android:layout_below="@+id/SelektionTextView"/>
+	
+		<Button android:id="@+id/loadcheckeditems_button" android:text="@string/LoadSaveCheckedItems_button"
+		 	android:layout_width="wrap_content" android:layout_height="wrap_content"  
+		 	android:enabled="true" android:layout_toRightOf="@+id/savecheckeditems_button" android:layout_below="@+id/SelektionTextView"/>
+		
+		<TextView android:text="Selektion" android:textAppearance="?android:attr/textAppearanceMedium" 
+			android:id="@+id/SelektionTextView" android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" android:layout_alignParentTop="true" 
+			android:layout_alignLeft="@+id/savecheckeditems_button"></TextView>
+		
+		<Button android:enabled="true" android:layout_width="wrap_content" android:id="@+id/saveapp_button" 
+			android:text="@string/SaveApp_button" android:layout_height="wrap_content" 
+			android:layout_alignParentRight="true" android:layout_alignBottom="@+id/loadcheckeditems_button" 
+			android:layout_below="@+id/SelektionTextView"></Button>
+		
+	</RelativeLayout>
+
+	<ListView android:id="@+id/saveapps_list_view" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:drawSelectorOnTop="false" />
+
+</LinearLayout>

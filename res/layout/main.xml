@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="fill_parent" 
+	android:layout_width="fill_parent">
+<Button android:id="@+id/apps_sichern_button" android:text="@string/Apps_sichern_button" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+<Button android:layout_width="match_parent" android:id="@+id/apps_loeschen_button" android:text="@string/Apps_loeschen_button" android:layout_height="wrap_content"></Button>
+<Button android:layout_width="match_parent" android:id="@+id/bluetooth_pairing_wiederherstellen_button" android:text="@string/Bluetooth_Pairing_wiederherstellen_button" android:layout_height="wrap_content"></Button>
+<Button android:layout_width="match_parent" android:id="@+id/density_wert_aendern_button" android:text="@string/Density_Wert_aendern_button" android:layout_height="wrap_content"></Button>
+<Button android:id="@+id/uv_werte_wiederherstellen_button" android:text="@string/UV_Werte_wiederherstellen_button" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+<Button android:id="@+id/restore_button" android:text="@string/restore_button" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+</LinearLayout>

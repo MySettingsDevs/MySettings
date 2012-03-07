@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MySettings beta-V1</string>
+    <string name="Apps_sichern_button">Apps sichern</string>
+    <string name="UV_Werte_wiederherstellen_button">UV-Werte wiederherstellen</string>
+    <string name="Bluetooth_Pairing_wiederherstellen_button">Bluetooth-Pairing wiederherstellen</string>
+    <string name="Density_Wert_aendern_button">Density Wert ändern</string>
+    <string name="Apps_loeschen_button">Apps löschen</string>
+    <string name="App_loeschen_button">Apps löschen</string>
+    <string name="SaveApp_button">Apps sichern</string>
+    <string name="SaveCheckedItems_button">speichern</string>
+    <string name="LoadSaveCheckedItems_button">laden</string>
+    <string name="SaveDeleteCheckedItems_button">speichern</string>
+    <string name="LoadDeleteCheckedItems_button">laden</string>
+    <string name="restore_button">Restore</string>
+    <string name="error_appname_missing">Bitte Name eingeben</string>
+    <string name="error_ok">OK</string> 
+    <string name="save_app">Save App</string> 
+    <string name="Einstellungen">Einstellungen</string> 
+    <string name="Info">Info</string> 
+    <string name="MySettings">MySettings</string> 
+</resources>
