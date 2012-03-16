@@ -86,6 +86,14 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 	 	initsdcardfolders ();
 	  	inityorsettingsfile ();
 	  	initmysettingscwmfile ();
+	  	
+// Root-Rechte aktivieren
+	 			try {
+	 				Process root = Runtime.getRuntime().exec("su");
+	 			} catch (IOException e1) {
+	 				// TODO Auto-generated catch block
+	 				e1.printStackTrace();
+	 			}
 
 // Installierte Apps auslesen und in die Datenbank schreiben bzw. aktualisieren
 //		getinstalledapps ();
