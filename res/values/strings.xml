@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">MySettings beta-V1</string>
     <string name="Apps_sichern_button">Apps sichern</string>
-    <string name="UV_Werte_wiederherstellen_button">UV-Werte wiederherstellen</string>
-    <string name="Bluetooth_Pairing_wiederherstellen_button">Bluetooth-Pairing wiederherstellen</string>
+    <string name="UV_Werte_sichern_button">UV-Werte sichern</string>
+    <string name="Bluetooth_Pairing_sichern_button">Bluetooth-Pairing sichern</string>
     <string name="Density_Wert_aendern_button">Density Wert ändern</string>
     <string name="Apps_loeschen_button">Apps löschen</string>
     <string name="App_loeschen_button">Apps löschen</string>

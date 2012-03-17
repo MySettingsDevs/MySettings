@@ -1,7 +1,6 @@
 package de.dmoeller.MySettings;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,18 +29,13 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 	
 	private Button apps_sichern_button;
     private Button apps_loeschen_button;
-    private Button bluetooth_pairing_wiederherstellen_button;
+    private Button bluetooth_pairing_sichern_button;
     private Button density_wert_aendern_button;
-    private Button uv_werte_wiederherstellen_button;
+    private Button uv_werte_sichern_button;
     private Button restore_button;
     private List<PackageInfo> packs;
     private MySettingsDatenbank MysettingsDB;
-	private String Global_MySettings_Dir;
-	
-// Variablen für das Kopieren von Verzeichnissen 	
-	private BufferedInputStream in = null;
-    private BufferedOutputStream out = null;
- 
+	private String Global_MySettings_Dir; 
     
 // Konstanten für das Anlegen der fixen Ordnerstruktur	
 	private static String backups_apps_dir 						= "/Backup-Apps";
@@ -66,6 +60,9 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 	private static String install_mods_framework_dir 			= "/Install-Mods/framework";
 	private static String install_mods_init_d_dir 				= "/Install-Mods/init.d";
 	private static String install_mods_systemUI_dir 			= "/Install-Mods/SystemUI";
+	
+	private static String bluetooth_paaring_dir	 				= "/Bluetooth-Paaring";
+	
 	
     	/** Called when the activity is first created. */
     @Override
@@ -106,14 +103,14 @@ public class MySettingsActivity extends Activity implements OnClickListener {
         apps_loeschen_button = (Button)findViewById(R.id.apps_loeschen_button);
         apps_loeschen_button.setOnClickListener(this);
         
-        bluetooth_pairing_wiederherstellen_button = (Button)findViewById(R.id.bluetooth_pairing_wiederherstellen_button);
-        bluetooth_pairing_wiederherstellen_button.setOnClickListener(this);
+        bluetooth_pairing_sichern_button = (Button)findViewById(R.id.bluetooth_pairing_sichern_button);
+        bluetooth_pairing_sichern_button.setOnClickListener(this);
         
         density_wert_aendern_button = (Button)findViewById(R.id.density_wert_aendern_button);
         density_wert_aendern_button.setOnClickListener(this);
         
-        uv_werte_wiederherstellen_button = (Button)findViewById(R.id.uv_werte_wiederherstellen_button);
-        uv_werte_wiederherstellen_button.setOnClickListener(this);
+        uv_werte_sichern_button = (Button)findViewById(R.id.uv_werte_sichern_button);
+        uv_werte_sichern_button.setOnClickListener(this);
         
         restore_button = (Button)findViewById(R.id.restore_button);
         restore_button.setOnClickListener(this);
@@ -133,20 +130,20 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 		}
 
-		if (v == bluetooth_pairing_wiederherstellen_button) {
+		if (v == bluetooth_pairing_sichern_button) {
 // system-Ordner mit den Bluetooth Ordnern rekursiv auf die SD-Karte kopieren
 			String SdCardDestPath = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir).toString();
-			File Quellordner = new File ("/system/etc/bluetooth");
-			File Zielordner = new File (SdCardDestPath + "/Bluetooth-Paaring");
+			String Quellordner = "/system/etc/bluetooth/";
+			String Zielordner = SdCardDestPath + bluetooth_paaring_dir;
 			Boolean DirectoryCopyOK = false;
 			
 			try {
-				DirectoryCopyOK = copyDir (Quellordner, Zielordner);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+					DirectoryCopyOK = new IOTools().rootcopydir(Quellordner, Zielordner);
+				} 
+			catch (InterruptedException e) {
+					e.printStackTrace();
+					}
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 			
@@ -174,7 +171,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 			return;
 		}
 
-		if (v == uv_werte_wiederherstellen_button) {
+		if (v == uv_werte_sichern_button) {
 			new AlertDialog.Builder(this) 
             	.setMessage("Bisher noch nicht implementiert")
             	.setNeutralButton(R.string.error_ok, null)
@@ -239,7 +236,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 // Array mit den Konstanten füllen, damit in der Schleife die Ordner angelegt werden können.
 // Achtung Array mit ficer Größe! Bei weiteren Ordnern muss das Array vergrößert werden und unten das Array weiter füllen!
 		String [] InitFolders;
-		int maxInitFolders = 19;
+		int maxInitFolders = 20;
 		InitFolders = new String[ maxInitFolders ];
 		
 		InitFolders [0] = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir).toString();
@@ -261,6 +258,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 		InitFolders [16] = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir + install_mods_framework_dir).toString();
 		InitFolders [17] = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir + install_mods_init_d_dir).toString();
 		InitFolders [18] = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir + install_mods_systemUI_dir).toString();
+		InitFolders [19] = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir + bluetooth_paaring_dir).toString();
 				
 // Methode für Initializierung -- Prüfen, ob Verzeichnis da ist, in die die Daten kopiert werden sollen        
         boolean mExternalStorageWriteable = new IOTools().checkexternalstorage(); 
@@ -319,37 +317,5 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 			// not currently mounted.
 			Log.w("ExternalStorage", "Error writing " + DFile, e);
 		}
-	}
-		    
-	    public boolean copyDir(File quelle, File ziel) throws FileNotFoundException, IOException {
-// Recursives Kopieren eines Directorys mit Files und Unterordnern	        
-	        Boolean DirectoryExists = false;
-	    	File[] files = quelle.listFiles();
-	        ziel.mkdirs();
-	        if (files != null) {
-	        	for (File file : files) {
-		            if (file.isDirectory()) {
-		                copyDir(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
-		            }
-		            else {
-		                copyFile(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
-		            }
-		        }
-	        	DirectoryExists = true;
-	        }
-	        return DirectoryExists;
-	    } 
-	    
-	    public void copyFile(File file, File ziel) throws FileNotFoundException, IOException {
-	        
-//	        System.out.println("Copy " + file.getAbsolutePath() + " to " + ziel.getAbsolutePath());
-	        in = new BufferedInputStream(new FileInputStream(file));
-	        out = new BufferedOutputStream(new FileOutputStream(ziel, true));
-	        int bytes = 0;
-	        while ((bytes = in.read()) != -1) {
-	            out.write(bytes);
-	        }
-	        in.close();
-	        out.close();
-	    } 
+	} 
 }

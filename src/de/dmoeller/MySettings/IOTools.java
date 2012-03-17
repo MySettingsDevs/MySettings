@@ -1,6 +1,16 @@
 package de.dmoeller.MySettings;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.os.Environment;
+import android.util.Log;
 
 public class IOTools {
 
@@ -34,4 +44,73 @@ public String generatepath(String param) {
 public String generateapkname(String param) {
 	 return param.substring(1+param.lastIndexOf('/'),param.length());
 	}
+
+public boolean rootcopydir (String quelle, String ziel) throws InterruptedException, IOException {
+	// root-Rechte holen
+			Process process = Runtime.getRuntime().exec("su");
+			DataOutputStream os = new DataOutputStream(process.getOutputStream());
+	// Datei-Operationen per shell-command, damit root-Rechte greifen
+			os.writeBytes("cp " + quelle + "* " + ziel +"\n"); // \n executes the command
+			os.flush();	
+			os.writeBytes("exit\n");
+			os.flush();
+			process.waitFor();
+			Boolean CopyStatusOK = true;
+					 
+			return CopyStatusOK;
+		}
+
+public boolean copydirectory(File quelle, File ziel) throws FileNotFoundException, IOException {
+//ACHTUNG: Nur nutzbar für Dateien und Ordner, die die App ohne Root-Rechte sehen darf!
+//Recursives Kopieren eines Directorys mit Files und Unterordnern	        
+    Boolean CopyStatusOK = false;
+	File[] files = quelle.listFiles();
+    ziel.mkdirs();
+    if (files != null) {
+    	for (File file : files) {
+            if (file.isDirectory()) {
+                copydir(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
+            }
+            else {
+                copyfile(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
+            }
+        }
+    	CopyStatusOK = true;
+    }
+    return CopyStatusOK;
+} 
+
+public void copydir(File quelle, File ziel) throws FileNotFoundException, IOException {
+//Achtung, CopyDir als Kopie von CopyDirectory, da es eine Endlosschleife gibt, wenn CopyDirectory innerhalb 
+//der Methode erneut aufgerufen wird!	        
+	File[] files = quelle.listFiles();
+    ziel.mkdirs();
+    if (files != null) {
+    	for (File file : files) {
+            if (file.isDirectory()) {
+                copydir(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
+            }
+            else {
+                copyfile(file, new File(ziel.getAbsolutePath() + System.getProperty("file.separator") + file.getName()));
+            }
+        }
+    }
+} 
+
+public void copyfile(File file, File ziel) throws FileNotFoundException, IOException {
+	 try {
+		    InputStream is = new FileInputStream (file);
+	        OutputStream os = new FileOutputStream(ziel);
+	        byte[] data = new byte[is.available()];
+	        is.read(data);
+	        os.write(data);
+	        is.close();
+	        os.close();
+	        } 
+	    catch (IOException e) {
+	        // Unable to create file, likely because external storage is
+	        // not currently mounted.
+	        Log.w("ExternalStorage", "Error writing " + file, e);
+	    }
+}
 }

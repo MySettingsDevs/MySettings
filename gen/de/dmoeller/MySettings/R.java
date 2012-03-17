@@ -28,7 +28,7 @@ public final class R {
         public static final int app_loeschen_button=0x7f060007;
         public static final int apps_loeschen_button=0x7f06001c;
         public static final int apps_sichern_button=0x7f06001b;
-        public static final int bluetooth_pairing_wiederherstellen_button=0x7f06001d;
+        public static final int bluetooth_pairing_sichern_button=0x7f06001d;
         public static final int checkstate=0x7f060002;
         public static final int deleteapps_list_view=0x7f060008;
         public static final int deletecheckeditems_button=0x7f060003;
@@ -55,7 +55,7 @@ public final class R {
         public static final int textView5=0x7f060015;
         public static final int textView6=0x7f060017;
         public static final int textView7=0x7f060019;
-        public static final int uv_werte_wiederherstellen_button=0x7f06001f;
+        public static final int uv_werte_sichern_button=0x7f06001f;
     }
     public static final class layout {
         public static final int deleteapps_list_entry=0x7f030000;
@@ -73,7 +73,7 @@ public final class R {
         public static final int App_loeschen_button=0x7f040006;
         public static final int Apps_loeschen_button=0x7f040005;
         public static final int Apps_sichern_button=0x7f040001;
-        public static final int Bluetooth_Pairing_wiederherstellen_button=0x7f040003;
+        public static final int Bluetooth_Pairing_sichern_button=0x7f040003;
         public static final int Density_Wert_aendern_button=0x7f040004;
         public static final int Einstellungen=0x7f040010;
         public static final int Info=0x7f040011;
@@ -83,7 +83,7 @@ public final class R {
         public static final int SaveApp_button=0x7f040007;
         public static final int SaveCheckedItems_button=0x7f040008;
         public static final int SaveDeleteCheckedItems_button=0x7f04000a;
-        public static final int UV_Werte_wiederherstellen_button=0x7f040002;
+        public static final int UV_Werte_sichern_button=0x7f040002;
         public static final int app_name=0x7f040000;
         public static final int error_appname_missing=0x7f04000d;
         public static final int error_ok=0x7f04000e;
