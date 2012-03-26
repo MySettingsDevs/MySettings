@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:weightSum="1">
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:orientation="horizontal" android:layout_height="wrap_content"
+		android:paddingTop="10dp" style="@android:style/ButtonBar">
+		<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/change_density" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/Change_Density" android:layout_centerVertical="true" android:layout_centerHorizontal="true"></TextView>
+
+	</RelativeLayout>
+	<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:weightSum="1">
+		<TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:text="Density-Wert" android:layout_width="wrap_content"></TextView>
+		<EditText android:layout_weight="1" android:id="@+id/density_wert" android:layout_height="wrap_content" android:layout_width="wrap_content">
+			<requestFocus></requestFocus>
+		</EditText>
+		<Button android:text="OK" android:layout_width="wrap_content" android:id="@+id/density_wert_ok_button" android:layout_height="wrap_content"></Button>
+	</LinearLayout>
+	<TextView android:id="@+id/textView2" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:text="Info"></TextView>
+	<TextView android:id="@+id/textView4" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:text="Hiermit wird der Density-Wert in der /system/build.prop Datei angepasst"></TextView>
+</LinearLayout>

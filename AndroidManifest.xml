@@ -36,5 +36,8 @@
 		<activity android:name=".EinstellungenActivity">
         </activity>
 
+		<activity android:name=".ChangeDensityActivity">
+        </activity>
+
     </application>
 </manifest>

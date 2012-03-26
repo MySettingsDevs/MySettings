@@ -45,17 +45,68 @@ public String generateapkname(String param) {
 	 return param.substring(1+param.lastIndexOf('/'),param.length());
 	}
 
+public boolean mountsystemrw () throws InterruptedException, IOException {
+// system rw mounten
+// root-Rechte holen
+	Boolean SystemMountRWOK = false;
+	Process process = Runtime.getRuntime().exec("su");
+	DataOutputStream os = new DataOutputStream(process.getOutputStream());
+// Datei-Operationen per shell-command, damit root-Rechte greifen
+	os.writeBytes("mount -o remount,rw -t yaffs2 /dev/block/mtdblock2 /system" + "\n"); // \n executes the command
+	os.flush();	
+	os.writeBytes("exit\n");
+	os.flush();
+	process.waitFor();
+	SystemMountRWOK = true;
+			 
+	return SystemMountRWOK;		
+}
+
+public boolean mountsystemro () throws InterruptedException, IOException {
+	// system ro mounten
+	// root-Rechte holen
+		Boolean SystemMountROOK = false;
+		Process process = Runtime.getRuntime().exec("su");
+		DataOutputStream os = new DataOutputStream(process.getOutputStream());
+	// Datei-Operationen per shell-command, damit root-Rechte greifen
+		os.writeBytes("mount -o remount,ro -t yaffs2 /dev/block/mtdblock2 /system" + "\n"); // \n executes the command
+		os.flush();	
+		os.writeBytes("exit\n");
+		os.flush();
+		process.waitFor();
+		SystemMountROOK = true;
+				 
+		return SystemMountROOK;		
+	}
+
 public boolean rootcopydir (String quelle, String ziel) throws InterruptedException, IOException {
 	// root-Rechte holen
+			Boolean CopyStatusOK = false;
 			Process process = Runtime.getRuntime().exec("su");
 			DataOutputStream os = new DataOutputStream(process.getOutputStream());
 	// Datei-Operationen per shell-command, damit root-Rechte greifen
-			os.writeBytes("cp " + quelle + "* " + ziel +"\n"); // \n executes the command
+			os.writeBytes("cp -R " + quelle + "* " + ziel +"\n"); // \n executes the command
 			os.flush();	
 			os.writeBytes("exit\n");
 			os.flush();
 			process.waitFor();
-			Boolean CopyStatusOK = true;
+			CopyStatusOK = true;
+					 
+			return CopyStatusOK;
+		}
+
+public boolean rootcopyfile (String quelle, String ziel) throws InterruptedException, IOException {
+	// root-Rechte holen
+			Boolean CopyStatusOK = false;
+			Process process = Runtime.getRuntime().exec("su");
+			DataOutputStream os = new DataOutputStream(process.getOutputStream());
+	// Datei-Operationen per shell-command, damit root-Rechte greifen
+			os.writeBytes("cp " + quelle + " " + ziel +"\n"); // \n executes the command
+			os.flush();	
+			os.writeBytes("exit\n");
+			os.flush();
+			process.waitFor();
+			CopyStatusOK = true;
 					 
 			return CopyStatusOK;
 		}
@@ -112,5 +163,5 @@ public void copyfile(File file, File ziel) throws FileNotFoundException, IOExcep
 	        // not currently mounted.
 	        Log.w("ExternalStorage", "Error writing " + file, e);
 	    }
-}
+	}
 }

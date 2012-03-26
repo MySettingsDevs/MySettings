@@ -1,9 +1,6 @@
 package de.dmoeller.MySettings;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +61,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 	private static String bluetooth_paaring_dir	 				= "/Bluetooth-Paaring";
 	
 	
+	
     	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,14 +82,6 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 	  	inityorsettingsfile ();
 	  	initmysettingscwmfile ();
 	  	
-// Root-Rechte aktivieren
-	 			try {
-	 				Process root = Runtime.getRuntime().exec("su");
-	 			} catch (IOException e1) {
-	 				// TODO Auto-generated catch block
-	 				e1.printStackTrace();
-	 			}
-
 // Installierte Apps auslesen und in die Datenbank schreiben bzw. aktualisieren
 //		getinstalledapps ();
 
@@ -131,7 +121,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 		}
 
 		if (v == bluetooth_pairing_sichern_button) {
-// system-Ordner mit den Bluetooth Ordnern rekursiv auf die SD-Karte kopieren
+// system-Ordner mit den Bluetooth Daeien/Ordnern rekursiv auf die SD-Karte kopieren
 			String SdCardDestPath = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir).toString();
 			String Quellordner = "/system/etc/bluetooth/";
 			String Zielordner = SdCardDestPath + bluetooth_paaring_dir;
@@ -149,7 +139,7 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 			
 			if (DirectoryCopyOK) {
 				new AlertDialog.Builder(this) 
-            	.setMessage("Bloutooth-Paaring auf SD-Karte kopiert!")
+            	.setMessage("Bluetooth-Paaring auf SD-Karte kopiert!")
             	.setNeutralButton(R.string.error_ok, null)
             	.show();
 			return;
@@ -164,19 +154,42 @@ public class MySettingsActivity extends Activity implements OnClickListener {
 		}
 	
 		if (v == density_wert_aendern_button) {
-			new AlertDialog.Builder(this) 
-            	.setMessage("Bisher noch nicht implementiert")
-            	.setNeutralButton(R.string.error_ok, null)
-            	.show();
-			return;
+// Zeile ro.sf.lcd_density=nnn in der /system/build.prop ändern
+			Intent intent = new Intent(this, ChangeDensityActivity.class);
+			startActivity(intent);
 		}
 
 		if (v == uv_werte_sichern_button) {
-			new AlertDialog.Builder(this) 
-            	.setMessage("Bisher noch nicht implementiert")
+// system/etc/init.d/S_volt_scheduler auf die sd-Karte kopieren
+			String SdCardDestPath = Environment.getExternalStoragePublicDirectory(Global_MySettings_Dir).toString();
+			String QuellDatei = "/system/etc/init.d/S_volt_scheduler";
+			String Zielordner = SdCardDestPath + install_mods_init_d_dir;
+			Boolean FileCopyOK = false;
+			
+			try {
+					FileCopyOK = new IOTools().rootcopyfile(QuellDatei, Zielordner);
+				} 
+			catch (InterruptedException e) {
+					e.printStackTrace();
+					}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if (FileCopyOK) {
+				new AlertDialog.Builder(this) 
+            	.setMessage("UV-Werte auf SD-Karte kopiert!")
             	.setNeutralButton(R.string.error_ok, null)
             	.show();
 			return;
+			}
+			else {
+				new AlertDialog.Builder(this) 
+            	.setMessage("ERROR: Keine UV-Werte gefunden!")
+            	.setNeutralButton(R.string.error_ok, null)
+            	.show();
+			return;
+			}			
 		}
 
 		if (v == restore_button) {
